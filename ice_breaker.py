@@ -11,10 +11,10 @@ from langchain_core.output_parsers import StrOutputParser
 # use the linkedin scrape that we have implemented ourselves.
 from third_parties.linkedin import scrape_linkedin_profile
 
-if __name__ == "__main__":
-    # Load environment variables from .env file
-    load_dotenv()
+from agents.linkedin_lookup_agent import lookup as linkedin_lookup_agent
 
+
+def ice_break_with(name: str):
     print("Hello LangChain with OpenRouter")
 
     # print(os.environ['OPENAI_API_KEY'])
@@ -83,12 +83,25 @@ if __name__ == "__main__":
     SDE-1 @ Mantis Pro Gaming
     """
 
-    #
+    # agentic search to find linkedin profile url
+    linkedin_username = linkedin_lookup_agent(name=name)
+    # send the url to scrape linkedin to get the data.
+    # linkedin_data = scrape_linkedin_profile(
+    #     linkedin_profile_url="https://www.linkedin.com/in/eden-marco/", mock=True
+    # )
     linkedin_data = scrape_linkedin_profile(
-        linkedin_profile_url="https://www.linkedin.com/in/eden-marco/", mock=True
+        linkedin_profile_url=linkedin_username, mock=True
     )
 
-    # actually invoke the api call.
+    # actually invoke the api call to get the information from the linkedin data.
     res = chain.invoke(input={"information": linkedin_data})
 
     print(res)
+
+
+if __name__ == "__main__":
+    # Load environment variables from .env file
+    load_dotenv()
+
+    print("Ice Breaker Enter")
+    ice_break_with(name="Eden Marco")
