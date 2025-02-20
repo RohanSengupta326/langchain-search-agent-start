@@ -8,6 +8,9 @@ from langchain_ollama import ChatOllama
 
 from langchain_core.output_parsers import StrOutputParser
 
+# use the linkedin scrape that we have implemented ourselves.
+from third_parties.linkedin import scrape_linkedin_profile
+
 if __name__ == "__main__":
     # Load environment variables from .env file
     load_dotenv()
@@ -42,7 +45,9 @@ if __name__ == "__main__":
     # in the .env file to redirect to openrouter and not openAI
     # as langchain doesn't support openRouter directly. so
     # had to bypass the base url.
-    llm = ChatOpenAI(temperature=0, model="cognitivecomputations/dolphin3.0-r1-mistral-24b:free")
+    llm = ChatOpenAI(
+        temperature=0, model="cognitivecomputations/dolphin3.0-r1-mistral-24b:free"
+    )
 
     # USAGE OF OLLAMA LLM model. with langchain.
     # downloaded latest version of ollama locally llama3.2 first.
@@ -64,8 +69,6 @@ if __name__ == "__main__":
         # other params...
     )
 
-
-
     # Create a LangChain pipeline (| operator passes input from prompt to model)
     # chain = summary_prompt_template | llm
 
@@ -79,6 +82,11 @@ if __name__ == "__main__":
     (He/Him)
     SDE-1 @ Mantis Pro Gaming
     """
+
+    #
+    linkedin_data = scrape_linkedin_profile(
+        linkedin_profile_url="https://www.linkedin.com/in/eden-marco/", mock=True
+    )
 
     # actually invoke the api call.
     res = chain.invoke(input={"information": linkedin_data})
