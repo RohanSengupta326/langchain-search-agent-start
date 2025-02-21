@@ -11,6 +11,7 @@ langchain-community = "*"
 langchainhub = "*"
 black = "*"
 langchain-ollama = "*"
+tweepy = "*"
 
 [dev-packages]
 

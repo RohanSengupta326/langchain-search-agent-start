@@ -50,8 +50,6 @@ def lookup(name: str) -> str:
     # explained later on ReAct paper uses chain of thoughts.
     react_prompt = hub.pull("hwchase17/react")
 
-
-
     # from langchain agents package
     # creates the agent by providing it with all it needs.
     # this is actually the recipe of how to perform actions.
@@ -61,7 +59,6 @@ def lookup(name: str) -> str:
     # runtime for the agent.
     # this actually is responsible for actually invoking the required python methods that the agent needs
     agent_executor = AgentExecutor(agent=agent, tools=tools_for_agent, verbose=True)
-
 
     result = agent_executor.invoke(
         input={"input": prompt_template.format_prompt(name_of_person=name)}
