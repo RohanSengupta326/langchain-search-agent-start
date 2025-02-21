@@ -24,8 +24,8 @@ def lookup(name: str) -> str:
         # other params...
     )
 
-    template = """given the full name {name_of_person} I want you to get it me a link to their Linkedin profile page.
-                              Your answer should contain only a URL"""
+    template = """given the full name {name_of_person} I want you to get me a link to their Linkedin profile page.
+                              Your answer should contain only 1 URL strictly."""
 
     prompt_template = PromptTemplate(
         template=template, input_variables=["name_of_person"]
@@ -37,7 +37,7 @@ def lookup(name: str) -> str:
         # tools provided to the llm to actually perform something
         # on the internet or something.
         Tool(
-            name="Crawl Google 4 linkedin profile page",
+            name="Search Google for linkedin profile page",
             # which method to run when the tool is used.
             func=get_profile_url_tavily,
             # desc: to specify for the agent when to run the tool
@@ -64,10 +64,15 @@ def lookup(name: str) -> str:
         input={"input": prompt_template.format_prompt(name_of_person=name)}
     )
 
+    # print(result)
+
     # get the output from the response
     linked_profile_url = result["output"]
+
+    # print(linked_profile_url)
+
     return linked_profile_url
 
 
 if __name__ == "__main__":
-    print(lookup(name="Rohan Sengupta MantisProGaming"))
+    print(lookup(name="Rohan Sengupta Mantis Pro Gaming"))

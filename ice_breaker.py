@@ -16,12 +16,17 @@ from agents.linkedin_lookup_agent import lookup as linkedin_lookup_agent
 from agents.twitter_lookup_agent import lookup as twitter_lookup_agent
 from third_parties.twitter import scrape_user_tweets
 
-from output_parser import summary_parser
+from output_parser import summary_parser, Summary
 
 from langchain_core.output_parsers import JsonOutputParser
 
+from typing import Tuple
 
-def ice_break_with(name: str):
+# before python 3.8 , couldn't have mentioned type like this tuple[type1, type2]
+# had to import
+# from typing import Tuple
+# then Tuple[type1, type2]
+def ice_break_with(name: str) -> Tuple[Summary, str]:
     print("Hello LangChain with OpenRouter")
 
     # print(os.environ['OPENAI_API_KEY'])
@@ -100,10 +105,10 @@ def ice_break_with(name: str):
     # also the summary_parser=PydanticOutputParser takes a json object,
     # so the llm has to return the json structure else it will throw error.
     # so you have mention it to the llm in the PromptTemplate so that it can do it .
-    # chain = summary_prompt_template | llm | summary_parser
+    chain = summary_prompt_template | llm | summary_parser
 
     # used the lambda method, cause the response of the llm is coming in a dict, and content has the actual response in json format that I wanted, so have to extract it and send to summary_parser.
-    chain = summary_prompt_template | llm | (lambda x: x.content) | summary_parser
+    # chain = summary_prompt_template | llm | (lambda x: x.content) | summary_parser
 
     # Example LinkedIn data (commented out actual scraping)
     linkedin_data = """Rohan Sengupta
@@ -123,17 +128,20 @@ def ice_break_with(name: str):
 
     # if u want to scrape twitter too.
     twitter_username = twitter_lookup_agent(name=name)
-    tweets = scrape_user_tweets(username=twitter_username)
+    tweets = scrape_user_tweets(username=twitter_username, mock=True)
 
     # actually invoke the api call to get the information from the linkedin data.
-    res = chain.invoke(input={"information": linkedin_data, "twitter_posts": tweets})
+    res: Summary = chain.invoke(input={"information": linkedin_data, "twitter_posts": tweets})
 
-    print(res)
+    # returns a tuple.
+    return res, linkedin_data.get("profile_pic_url")
 
 
 if __name__ == "__main__":
     # Load environment variables from .env file
     load_dotenv()
 
+    # INTEGRATE WITH LANGSMITH USING LANGSMITH API KEYS TO VISUALLY SEE EACH STEP IN THE WHOLE LLM AND AGENT EXECUTION PROCESS. FOR DEBUGGING PURPOSES.
+
     print("Ice Breaker Enter")
-    ice_break_with(name="Eden Marco")
+    print(ice_break_with(name="Rohan Sengupta Mantis Pro Gaming")[0])
