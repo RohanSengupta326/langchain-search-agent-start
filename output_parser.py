@@ -6,9 +6,9 @@ from pydantic import BaseModel, Field
 
 # extends BaseModel class
 class Summary(BaseModel):
-    # these Field are from pydantic and used when converting to pydantic Object.
+    # these 'Field's are from pydantic and used when converting to pydantic Object.
     # meaning the normal string data will be converted to
-    # in a dict like object with summary key with string summary
+    # a dict like object with summary key with string summary
     # and facts key : which consists of List of string .
     # means, it will simply parse the normal string data into this pydantic object.
     # similar to a json.
