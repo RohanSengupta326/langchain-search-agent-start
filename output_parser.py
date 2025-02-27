@@ -4,6 +4,19 @@ from langchain_core.output_parsers import PydanticOutputParser
 from pydantic import BaseModel, Field
 
 
+"""
+Pydantic
+Pydantic is a data validation library in python that enforces type hints at runtime.
+mentioning a data types of the dict. else generally python doesn't have a specific data
+type style which will cause errors. 
+How it works:
+
+Define models with type annotations
+Pydantic validates data when instances are created
+It converts data to the right types when possible
+It raises validation errors at runtime when data doesn't match
+"""
+
 # extends BaseModel class
 class Summary(BaseModel):
     # these 'Field's are from pydantic and used when converting to pydantic Object.

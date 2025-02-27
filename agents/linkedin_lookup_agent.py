@@ -76,3 +76,35 @@ def lookup(name: str) -> str:
 
 if __name__ == "__main__":
     print(lookup(name="Rohan Sengupta Mantis Pro Gaming"))
+
+
+""" 
+This Agent implementation was done using reAct prompt and AgentExecutor. 
+but it doesn't require you to manually call tools like in a traditional ReAct setup. Instead, the AgentExecutor handles tool execution automatically
+
+How This ReAct Implementation Works
+Agent Thinks: "I need to search for a LinkedIn profile."
+
+Agent Writes a Thought:
+Thought: I need to search Google for a LinkedIn profile.
+Action: Search Google for linkedin profile page
+Action Input: "Rohan Sengupta Mantis Pro Gaming"
+
+LangChain Parses the Output → Extracts "Search Google for linkedin profile page" as the tool.
+AgentExecutor Calls the Tool (get_profile_url_tavily).
+Observation is Returned to the LLM → The loop repeats until the agent reaches a final answer.
+
+"""
+
+
+""" 
+TOOL BINDING / FUNCTION CALLING: 
+
+Tool Binding and Agent Executor both allow an LLM to use external tools, but they work in fundamentally different ways.
+
+Tool Binding (also called Function Calling) is a newer and more structured approach where the LLM directly generates a function call in a structured format, typically JSON. When a user asks a question, the LLM decides if it needs to call a tool and returns a structured response specifying the tool name and the parameters required. LangChain automatically executes the tool and feeds the result back to the LLM. There is no need for manual parsing or handling tool execution separately. This method is more reliable and efficient because the LLM doesn't generate unstructured text that needs to be interpreted—it simply outputs a function call, making the process seamless and reducing errors.
+
+
+Agent Executor is still useful for cases where multi-step reasoning is important before deciding which tool to use
+
+"""
