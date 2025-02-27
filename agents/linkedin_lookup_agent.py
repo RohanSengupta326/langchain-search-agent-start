@@ -98,7 +98,7 @@ Observation is Returned to the LLM → The loop repeats until the agent reaches 
 
 
 """ 
-TOOL BINDING / FUNCTION CALLING: 
+TOOL BINDING / FUNCTION CALLING: (implementation in langGraph course project)
 
 Tool Binding and Agent Executor both allow an LLM to use external tools, but they work in fundamentally different ways.
 
