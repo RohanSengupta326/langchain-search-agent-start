@@ -60,6 +60,8 @@ def lookup(name: str) -> str:
     # this actually is responsible for actually invoking the required python methods that the agent needs
     agent_executor = AgentExecutor(agent=agent, tools=tools_for_agent, verbose=True)
 
+
+    # the dict key name is 'input' cause its the input variable in the react prompt. 
     result = agent_executor.invoke(
         input={"input": prompt_template.format_prompt(name_of_person=name)}
     )
