@@ -61,6 +61,22 @@ def lookup(name: str) -> str:
     agent_executor = AgentExecutor(agent=agent, tools=tools_for_agent, verbose=True)
 
 
+    """ 
+    Agent Scratchpad Management:
+
+    The agent_scratchpad variable is automatically managed by the AgentExecutor.
+    It keeps track of the intermediate steps (thoughts, actions, observations) during the agent's reasoning process.
+    When you use verbose=True in AgentExecutor, you can see this scratchpad being built in real-time.
+
+
+    Chat History:
+
+    If you're using the agent in a conversation, the chat_history parameter is populated automatically when you pass in previous exchanges.
+    In your example, since it's a single question, this would typically be empty or contain previous turns if in a session. 
+    
+    """
+
+
     # the dict key name is 'input' cause its the input variable in the react prompt. 
     result = agent_executor.invoke(
         input={"input": prompt_template.format_prompt(name_of_person=name)}
